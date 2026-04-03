@@ -47,6 +47,7 @@ public class Biblioteca {
 
         for (Livro livro : listaLivros) {
             livro.exibirLivro();
+            System.out.print("\n");
         }
     }
 
@@ -56,7 +57,7 @@ public class Biblioteca {
         if (titulo == null) return null;
 
         for (Livro livro : listaLivros) {
-            if ((livro.getTitulo().equalsIgnoreCase(titulo))) {
+            if (livro.getTitulo().trim().equalsIgnoreCase(titulo.trim())) {
                 return livro;
             }
         }

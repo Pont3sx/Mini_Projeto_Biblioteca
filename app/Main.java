@@ -1,5 +1,7 @@
 package app;
 
+import exceptions.LivroIndisponivelException;
+import exceptions.LivroNaoEncontradoException;
 import service.Biblioteca;
 
 import java.util.Scanner;
@@ -33,18 +35,18 @@ public class Main {
                     break;
                 case 1:
                     System.out.print("Digite o Nome do(a) Professor(a) para Fazer o Cadastro: ");
-                    String nomeProfessora = leitorInput.nextLine();
+                    String nomeProfessor = leitorInput.nextLine();
 
                     System.out.print("Digite o Email do(a) Professor(a): ");
-                    String emailProfessora = leitorInput.nextLine();
+                    String emailProfessor = leitorInput.nextLine();
 
-                    System.out.println("Digite o Registro de Identificação do(a) Professor(a): ");
+                    System.out.print("Digite o Registro de Identificação do(a) Professor(a): ");
                     String registro = leitorInput.nextLine();
 
-                    System.out.println("Digite o Departamneto do(a) Professor(a): ");
+                    System.out.print("Digite o Departamneto do(a) Professor(a): ");
                     String departamento = leitorInput.nextLine();
 
-                    biblioteca.cadastrarProfessor(nomeProfessora, emailProfessora, registro, departamento);
+                    biblioteca.cadastrarProfessor(nomeProfessor, emailProfessor, registro, departamento);
                     break;
                 case 2:
                     System.out.print("Digite o Nome do(a) Aluno(a) para Fazer o Cadastro: ");
@@ -53,10 +55,10 @@ public class Main {
                     System.out.print("Digite o Email do(a) Aluno(a): ");
                     String emailAluno = leitorInput.nextLine();
 
-                    System.out.print("Digite o Registro de Identificação do(a) Aluno(a): ");
+                    System.out.print("Digite a Matrícula do(a) Aluno(a): ");
                     String matricula = leitorInput.nextLine();
 
-                    System.out.print("Digite o Departamneto do(a) Aluno(a): ");
+                    System.out.print("Digite o Curso do(a) Aluno(a): ");
                     String curso = leitorInput.nextLine();
 
                     biblioteca.cadastrarAluno(nomeAluno, emailAluno, matricula, curso);
@@ -74,11 +76,31 @@ public class Main {
                     biblioteca.listarLivros();
                     break;
                 case 5:
-                    System.out.print("Digite o Título do Livro para fazer o Empréstimo: ");
+                    System.out.print("Digite o Título do Livro para fazer seu Empréstimo: ");
                     String tituloLivro = leitorInput.nextLine();
 
-                    biblioteca.emprestarLivro(tituloLivro);
+                    try {
+                        biblioteca.emprestarLivro(tituloLivro);
+                    } catch (LivroNaoEncontradoException e) {
+                        System.out.println(e.getMessage());
+                    } catch (LivroIndisponivelException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
+                case 6:
+                    System.out.print("Digite o Título do Livro para fazer sua Devolução: ");
+                    String tituloDevolucao = leitorInput.nextLine();
+
+                    try {
+                        biblioteca.devolverLivro(tituloDevolucao);
+                    } catch (LivroNaoEncontradoException e) {
+                        System.out.println(e.getMessage());
+                    } catch (IllegalStateException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                default:
+                    System.out.println("Opção inexistente! Digite outro número.");
             }
         }
     }
